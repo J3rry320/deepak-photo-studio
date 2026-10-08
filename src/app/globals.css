@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
+@theme {
+  --color-theme-bg: var(--color-bg-primary);
+  --color-theme-surface: var(--color-bg-secondary);
+  --color-theme-surface-subtle: var(--color-bg-tertiary);
+  --color-theme-border: var(--color-border);
+  --color-theme-text: var(--color-text-primary);
+  --color-theme-muted: var(--color-text-muted);
+  --color-theme-faint: var(--color-text-faint);
+  --color-theme-accent: var(--color-accent);
+  --color-theme-accent-hover: var(--color-accent-hover);
+  --color-theme-highlight: var(--color-highlight);
+
+  --font-display: var(--font-marcellus), var(--font-odia-serif), Georgia, serif;
+  --font-body: var(--font-tenor-sans), var(--font-odia-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-odia-display: var(--font-odia-serif), serif;
+  --font-odia-body: var(--font-odia-sans), sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Sacred Mandap & Chandan Silk (Traditional Odia Wedding Palette) */
+  --color-bg-primary: #FAF7F2;
+  --color-bg-secondary: #F3ECE2;
+  --color-bg-tertiary: #ECE3D5;
+  --color-border: rgba(125, 17, 23, 0.14);
+  --color-text-primary: #1C0E10;
+  --color-text-muted: #5C4E4B;
+  --color-text-faint: #7A6A67;
+  --color-accent: #946500;
+  --color-accent-hover: #7A5200;
+  --color-accent-glow: transparent;
+  --color-highlight: #7D1117;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Auspicious Sindoor Crimson selection */
+::selection {
+  background: var(--color-highlight);
+  color: #ffffff;
+}
+
+/* Minimalist bronze hairline scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-tertiary);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
 }
