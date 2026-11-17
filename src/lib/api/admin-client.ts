@@ -105,6 +105,5 @@ export const adminClient = {
   enquiries: createEntityMethods<Record<string, unknown>>('/api/admin/enquiries'),
   packages: createEntityMethods<Record<string, unknown>>('/api/admin/packages'),
   stories: createEntityMethods<Record<string, unknown>>('/api/admin/stories'),
-  portfolio: createEntityMethods<Record<string, unknown>>('/api/admin/portfolio'),
   testimonials: createEntityMethods<Record<string, unknown>>('/api/admin/testimonials'),
 };

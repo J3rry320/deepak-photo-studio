@@ -1,3 +1,7 @@
+import React from 'react';
+import { Phone, Mail } from 'lucide-react';
+import type { SocialPlatform } from '@/config/navigation';
+
 export function InstagramIcon({ className = 'w-4 h-4' }: { className?: string }) {
   return (
     <svg
@@ -47,4 +51,27 @@ export function WhatsAppIcon({ className = 'w-4 h-4' }: { className?: string }) 
       <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
     </svg>
   );
+}
+
+export interface SocialIconProps {
+  platform: SocialPlatform;
+  className?: string;
+}
+
+/**
+ * Reusable icon dispatcher for social & contact platforms
+ */
+export function SocialIcon({ platform, className = 'w-4 h-4' }: SocialIconProps) {
+  switch (platform) {
+    case 'instagram':
+      return <InstagramIcon className={className} />;
+    case 'youtube':
+      return <YoutubeIcon className={className} />;
+    case 'whatsapp':
+      return <WhatsAppIcon className={className} />;
+    case 'phone':
+      return <Phone className={className} />;
+    case 'mail':
+      return <Mail className={className} />;
+  }
 }

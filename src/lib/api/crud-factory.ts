@@ -1,41 +1,45 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Model, Document } from 'mongoose';
-import { withAdminApi } from './guard';
-import { connectToDatabase } from '@/lib/db/mongodb';
-import { cacheDelete } from '@/lib/redis/cache';
+import { connectToDatabase } from "@/lib/db/mongodb";
+import { Document, Model } from "mongoose";
+import { revalidateTag } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
+import { withAdminApi } from "./guard";
 
 export interface CrudFactoryOptions<T extends Document> {
   model: Model<T>;
   entityName: string;
   searchFields?: (keyof T | string)[];
   filterFields?: (keyof T | string)[];
-  cacheKeysToInvalidate?: string[] | ((doc: Record<string, unknown>) => string[]);
   defaultSort?: Record<string, 1 | -1>;
 }
 
 export function createAdminCrudHandlers<T extends Document>(
-  options: CrudFactoryOptions<T>
+  options: CrudFactoryOptions<T>,
 ) {
   const {
     model,
     entityName,
     searchFields = [],
-    filterFields = ['status', 'category', 'isPopular', 'isPublished', 'isActive'],
-    cacheKeysToInvalidate = [],
+    filterFields = [
+      "status",
+      "category",
+      "isPopular",
+      "isPublished",
+      "isActive",
+    ],
     defaultSort = { createdAt: -1 },
   } = options;
 
   async function purgeCaches(doc?: Record<string, unknown>) {
     try {
-      if (Array.isArray(cacheKeysToInvalidate)) {
-        for (const key of cacheKeysToInvalidate) {
-          await cacheDelete(key);
-        }
-      } else if (typeof cacheKeysToInvalidate === 'function' && doc) {
-        const keys = cacheKeysToInvalidate(doc);
-        for (const key of keys) {
-          await cacheDelete(key);
-        }
+      // Invalidate Next.js 16 'use cache' tags
+      if (entityName === "Testimonial") {
+        revalidateTag("testimonials", "max");
+      } else if (entityName === "BlogStory") {
+        revalidateTag("stories", "max");
+        if (doc?.slug) revalidateTag(`story-${doc.slug}`, "max");
+      } else if (entityName === "Package") {
+        revalidateTag("packages", "max");
+        if (doc?.slug) revalidateTag(`package-${doc.slug}`, "max");
       }
     } catch (e) {
       console.warn(`[AdminCrud:${entityName}] Cache purge warning:`, e);
@@ -48,9 +52,12 @@ export function createAdminCrudHandlers<T extends Document>(
       await connectToDatabase();
 
       const searchParams = req.nextUrl.searchParams;
-      const q = searchParams.get('q')?.trim();
-      const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
-      const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '50', 10)));
+      const q = searchParams.get("q")?.trim();
+      const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+      const limit = Math.min(
+        100,
+        Math.max(1, parseInt(searchParams.get("limit") || "50", 10)),
+      );
       const skip = (page - 1) * limit;
 
       const queryFilter: Record<string, unknown> = {};
@@ -58,17 +65,17 @@ export function createAdminCrudHandlers<T extends Document>(
       // 1. Text Search across designated fields
       if (q && searchFields.length > 0) {
         queryFilter.$or = searchFields.map((field) => ({
-          [field]: { $regex: q, $options: 'i' },
+          [field]: { $regex: q, $options: "i" },
         }));
       }
 
       // 2. Exact match filters
       filterFields.forEach((field) => {
         const value = searchParams.get(String(field));
-        if (value !== null && value !== undefined && value !== '') {
-          if (value === 'true') {
+        if (value !== null && value !== undefined && value !== "") {
+          if (value === "true") {
             (queryFilter as Record<string, unknown>)[String(field)] = true;
-          } else if (value === 'false') {
+          } else if (value === "false") {
             (queryFilter as Record<string, unknown>)[String(field)] = false;
           } else {
             (queryFilter as Record<string, unknown>)[String(field)] = value;
@@ -77,7 +84,12 @@ export function createAdminCrudHandlers<T extends Document>(
       });
 
       const [items, total] = await Promise.all([
-        model.find(queryFilter).sort(defaultSort).skip(skip).limit(limit).lean(),
+        model
+          .find(queryFilter)
+          .sort(defaultSort)
+          .skip(skip)
+          .limit(limit)
+          .lean(),
         model.countDocuments(queryFilter),
       ]);
 
@@ -95,7 +107,7 @@ export function createAdminCrudHandlers<T extends Document>(
       console.error(`[AdminCrud:${entityName}] GET Error:`, error);
       return NextResponse.json(
         { success: false, error: `Failed to fetch ${entityName} records.` },
-        { status: 500 }
+        { status: 500 },
       );
     }
   });
@@ -108,8 +120,8 @@ export function createAdminCrudHandlers<T extends Document>(
       const body = await req.json().catch(() => null);
       if (!body) {
         return NextResponse.json(
-          { success: false, error: 'Invalid JSON request payload.' },
-          { status: 400 }
+          { success: false, error: "Invalid JSON request payload." },
+          { status: 400 },
         );
       }
 
@@ -126,9 +138,12 @@ export function createAdminCrudHandlers<T extends Document>(
       return NextResponse.json(
         {
           success: false,
-          error: error instanceof Error ? error.message : `Failed to create ${entityName}.`,
+          error:
+            error instanceof Error
+              ? error.message
+              : `Failed to create ${entityName}.`,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   });
@@ -139,25 +154,25 @@ export function createAdminCrudHandlers<T extends Document>(
       await connectToDatabase();
 
       const body = await req.json().catch(() => null);
-      const id = body?._id || body?.id || req.nextUrl.searchParams.get('id');
+      const id = body?._id || body?.id || req.nextUrl.searchParams.get("id");
 
       if (!id) {
         return NextResponse.json(
-          { success: false, error: 'Record ID is required for update.' },
-          { status: 400 }
+          { success: false, error: "Record ID is required for update." },
+          { status: 400 },
         );
       }
 
       const updated = await model.findByIdAndUpdate(
         id,
         { $set: body },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
       );
 
       if (!updated) {
         return NextResponse.json(
           { success: false, error: `${entityName} record not found.` },
-          { status: 404 }
+          { status: 404 },
         );
       }
 
@@ -173,9 +188,12 @@ export function createAdminCrudHandlers<T extends Document>(
       return NextResponse.json(
         {
           success: false,
-          error: error instanceof Error ? error.message : `Failed to update ${entityName}.`,
+          error:
+            error instanceof Error
+              ? error.message
+              : `Failed to update ${entityName}.`,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   });
@@ -185,11 +203,11 @@ export function createAdminCrudHandlers<T extends Document>(
     try {
       await connectToDatabase();
 
-      const id = req.nextUrl.searchParams.get('id');
+      const id = req.nextUrl.searchParams.get("id");
       if (!id) {
         return NextResponse.json(
-          { success: false, error: 'Record ID is required for deletion.' },
-          { status: 400 }
+          { success: false, error: "Record ID is required for deletion." },
+          { status: 400 },
         );
       }
 
@@ -197,7 +215,7 @@ export function createAdminCrudHandlers<T extends Document>(
       if (!deleted) {
         return NextResponse.json(
           { success: false, error: `${entityName} record not found.` },
-          { status: 404 }
+          { status: 404 },
         );
       }
 
@@ -212,9 +230,12 @@ export function createAdminCrudHandlers<T extends Document>(
       return NextResponse.json(
         {
           success: false,
-          error: error instanceof Error ? error.message : `Failed to delete ${entityName}.`,
+          error:
+            error instanceof Error
+              ? error.message
+              : `Failed to delete ${entityName}.`,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   });

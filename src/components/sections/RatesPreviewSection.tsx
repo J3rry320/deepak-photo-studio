@@ -1,23 +1,13 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
-import { ratesConfig } from '@/config/rates';
+import { useLocale, useTranslations } from 'next-intl';
 import { LocalizedPackage } from '@/types/service';
-import { ArrowUpRight, MapPin, Sparkles } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { MediaSlot } from '@/components/MediaSlot';
-import {
-  BothSidesUnionIcon,
-  GroomBaraatIcon,
-  BrideRitualIcon,
-  PreWeddingCoastIcon,
-  CinemaRollIcon,
-  AudioVowsIcon,
-  ArchivalAlbumIcon,
-  StudioTrioIcon,
-  GalleryVaultIcon,
-} from '@/components/WeddingIcons';
+import { Reveal } from '@/components/ui/Reveal';
+import { landingMediaConfig, getFallbackPackages } from '@/config/landing-media';
 
 interface RatesPreviewSectionProps {
   packages?: LocalizedPackage[];
@@ -25,221 +15,191 @@ interface RatesPreviewSectionProps {
 
 export function RatesPreviewSection({ packages = [] }: RatesPreviewSectionProps) {
   const t = useTranslations();
+  const locale = useLocale();
+  const isOr = locale === 'or';
 
-  // Pick the 4 signature wedding packages from database data
+  const activePackages =
+    packages && packages.length > 0 ? packages : getFallbackPackages(locale);
+
   const completePkg =
-    packages.find((p) => p.slug === 'complete-both-sides-wedding') || packages[0];
+    activePackages.find((p) => p.slug === 'complete-both-sides-wedding') ||
+    activePackages[0];
   const groomPkg =
-    packages.find((p) => p.slug === 'groom-side-wedding') || packages[1];
+    activePackages.find((p) => p.slug === 'groom-side-wedding') ||
+    activePackages[1];
   const bridePkg =
-    packages.find((p) => p.slug === 'bride-side-wedding') || packages[2];
+    activePackages.find((p) => p.slug === 'bride-side-wedding') ||
+    activePackages[2];
   const preWedPkg =
-    packages.find((p) => p.slug === 'pre-wedding-shoot') || packages[3];
+    activePackages.find((p) => p.slug === 'pre-wedding-shoot') ||
+    activePackages[3];
 
-  // Map each deliverable to its unique contextual icon
-  const getDeliverableIcon = (feat: string, index: number) => {
-    const lower = feat.toLowerCase();
-    if (lower.includes('crew') || lower.includes('artist') || lower.includes('photographer')) {
-      return <StudioTrioIcon className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />;
-    }
-    if (lower.includes('trailer') || lower.includes('cinema') || lower.includes('film') || lower.includes('video')) {
-      return <CinemaRollIcon className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />;
-    }
-    if (lower.includes('album') || lower.includes('book') || lower.includes('print')) {
-      return <ArchivalAlbumIcon className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />;
-    }
-    if (lower.includes('audio') || lower.includes('vow') || lower.includes('sound')) {
-      return <AudioVowsIcon className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />;
-    }
-    if (index === 0) {
-      return <StudioTrioIcon className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />;
-    }
-    return <GalleryVaultIcon className="w-4 h-4 text-[var(--color-accent)] shrink-0 mt-0.5" />;
-  };
+  const orderedPackages = [completePkg, groomPkg, bridePkg, preWedPkg].filter(
+    (p): p is LocalizedPackage => Boolean(p)
+  );
 
-  const renderPackageCard = (
-    pkg: LocalizedPackage | undefined,
-    IconComponent: React.ComponentType<{ className?: string }>
-  ) => {
-    if (!pkg) return null;
-
-    const deliverables = (pkg.deliverables && pkg.deliverables.length > 0)
-      ? pkg.deliverables
-      : (pkg.features || []).slice(0, 5);
-
-    return (
-      <div
-        key={pkg.slug}
-        className={`lg:col-span-6 p-7 sm:p-9 border flex flex-col justify-between space-y-7 transition-all ${
-          pkg.isPopular
-            ? 'border-[var(--color-accent)] bg-[var(--color-bg-primary)] shadow-sm'
-            : 'border-[var(--color-border)] bg-[var(--color-bg-primary)] hover:border-[var(--color-accent)]'
-        }`}
-      >
-        <div className="space-y-6">
-          {/* Header Row: Unique Icon + Popular Badge */}
-          <div className="flex items-center justify-between">
-            <div className="w-10 h-10 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-accent)] shadow-xs">
-              <IconComponent className="w-5 h-5" />
-            </div>
-
-            {pkg.isPopular && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 border border-[var(--color-accent)]/30 bg-[var(--color-bg-secondary)] text-[11px] font-body uppercase tracking-wider text-[var(--color-accent)] font-semibold">
-                <Sparkles className="w-3 h-3" />
-                <span>Featured Collection</span>
-              </span>
-            )}
-          </div>
-
-          {/* Title & Short Summary */}
-          <div className="space-y-2">
-            <h3 className="font-display text-2xl sm:text-3xl text-[var(--color-highlight)] leading-snug">
-              {pkg.title}
-            </h3>
-            <p className="font-body text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-              {pkg.tagline}
-            </p>
-          </div>
-
-          {/* Price Bar */}
-          <div className="py-3.5 border-y border-[var(--color-border)] flex items-baseline justify-between">
-            <span className="text-[11px] font-body uppercase tracking-[0.2em] text-[var(--color-text-faint)]">
-              {t('rates.startingAt')}
-            </span>
-            <span className="font-display text-3xl sm:text-4xl text-[var(--color-highlight)] font-medium">
-              {pkg.formattedStartingPrice}
-            </span>
-          </div>
-
-          {/* Media Slot */}
-          <MediaSlot
-            src={pkg.media?.src}
-            aspectRatio={pkg.media?.aspectRatio || '16/9'}
-            label={pkg.media?.label}
-            descriptor={pkg.media?.descriptor}
-          />
-
-          {/* Curated Deliverables with UNIQUE CONTEXTUAL ICONS */}
-          <div className="space-y-3 pt-1">
-            <span className="block text-[11px] font-body uppercase tracking-wider text-[var(--color-text-faint)]">
-              Package Inclusions:
-            </span>
-            <ul className="space-y-2.5">
-              {deliverables.slice(0, 5).map((feat, idx) => (
-                <li
-                  key={idx}
-                  className="flex items-start gap-3 text-xs sm:text-sm font-body text-[var(--color-text-muted)] leading-snug"
-                >
-                  {getDeliverableIcon(feat, idx)}
-                  <span>{feat}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="pt-6 border-t border-[var(--color-border)] flex flex-col sm:flex-row gap-3">
-          <Link
-            href={`/services/${pkg.slug}`}
-            className={`flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-body font-semibold uppercase tracking-[0.18em] transition-colors ${
-              pkg.isPopular
-                ? 'bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[#ffffff]'
-                : 'border border-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[#ffffff] text-[var(--color-highlight)]'
-            }`}
-          >
-            <span>{t('rates.viewTiers')}</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </Link>
-          <Link
-            href="#inquire"
-            className="inline-flex items-center justify-center px-6 py-3.5 border border-[var(--color-border)] hover:border-[var(--color-accent)] text-[var(--color-text-muted)] hover:text-[var(--color-highlight)] text-xs font-body uppercase tracking-[0.18em] transition-colors bg-[var(--color-bg-secondary)]"
-          >
-            <span>{t('hero.ctaInquire')}</span>
-          </Link>
-        </div>
-      </div>
-    );
-  };
+  const { packageMedia, albumShowcase } = landingMediaConfig.rates;
 
   return (
     <section
       id="investment"
-      className="px-6 sm:px-10 lg:px-12 py-20 sm:py-28 border-b border-[var(--color-border)] bg-[var(--color-bg-secondary)]/20"
+      className="px-6 sm:px-10 lg:px-12 py-12 sm:py-16 lg:py-20 border-b border-[var(--color-border)] bg-[var(--color-bg-secondary)]/20"
     >
-      <div className="max-w-7xl mx-auto space-y-16">
+      <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-6 border-b border-[var(--color-border)]">
-          <div className="max-w-3xl space-y-3">
-            <h2 className="font-display text-3xl sm:text-5xl text-[var(--color-highlight)] leading-tight">
-              {t(ratesConfig.sectionTitleKey)}
+        <Reveal className="pb-6 border-b border-[var(--color-border)]">
+          <div className="max-w-3xl space-y-2.5">
+            <h2 className="font-display text-2xl sm:text-4xl text-[var(--color-highlight)] leading-tight">
+              {t('rates.title')}
             </h2>
             <p className="font-body text-sm sm:text-base text-[var(--color-text-muted)] leading-relaxed">
-              {t(ratesConfig.sectionLeadKey)}
+              {t('rates.lead')}
             </p>
           </div>
+        </Reveal>
 
-          {/* Cuttack Base Badge */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-2.5 border border-[var(--color-border)] bg-[var(--color-bg-primary)] text-xs font-body text-[var(--color-text-muted)] shadow-xs shrink-0">
-            <MapPin className="w-4 h-4 text-[var(--color-accent)] shrink-0" />
-            <span className="font-medium">{t('rates.cuttackTeamNotice')}</span>
-          </div>
+        {/* 4 Signature Collections Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
+          {orderedPackages.map((pkg, idx) => {
+            const configSlot = packageMedia[pkg.slug];
+            const mediaSrc =
+              (configSlot && configSlot.src) || pkg.media?.src || '';
+            const mediaType = configSlot?.type || 'image';
+            const mediaRatio = configSlot?.aspectRatio || '16/9';
+            const mediaAlt = configSlot
+              ? isOr
+                ? configSlot.altOr
+                : configSlot.altEn
+              : pkg.title;
+
+            const deliverables =
+              pkg.deliverables && pkg.deliverables.length > 0
+                ? pkg.deliverables
+                : (pkg.features || []).slice(0, 4);
+
+            return (
+              <Reveal
+                key={pkg.slug}
+                delay={(idx % 2) * 0.08}
+                className={`lg:col-span-6 p-5 sm:p-6 lg:p-7 border flex flex-col justify-between space-y-6 transition-colors duration-300 ${
+                  pkg.isPopular
+                    ? 'border-[var(--color-accent)] bg-[var(--color-bg-primary)] shadow-xs'
+                    : 'border-[var(--color-border)] bg-[var(--color-bg-primary)] hover:border-[var(--color-accent)]'
+                }`}
+              >
+                <div className="space-y-5">
+                  {/* Sleek Editorial Media Frame */}
+                  <MediaSlot
+                    type={mediaType}
+                    src={mediaSrc}
+                    aspectRatio={mediaRatio}
+                    alt={mediaAlt}
+                    className="max-h-48"
+                  />
+
+                  {/* Title, Tagline & Price Row */}
+                  <div className="space-y-3 pt-1">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-3.5 border-b border-[var(--color-border)]">
+                      <h3 className="font-display text-xl sm:text-2xl text-[var(--color-highlight)] leading-snug">
+                        {pkg.title}
+                      </h3>
+                      <div className="flex items-baseline gap-2 shrink-0">
+                        <span className="text-[10px] font-body uppercase tracking-[0.16em] text-[var(--color-text-muted)] font-medium">
+                          {t('rates.startingAt')}
+                        </span>
+                        <span className="font-display text-xl sm:text-2xl text-[var(--color-accent)] font-medium">
+                          {pkg.formattedStartingPrice}
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className="font-body text-xs sm:text-[13px] text-[var(--color-text-muted)] leading-relaxed">
+                      {pkg.tagline}
+                    </p>
+                  </div>
+
+                  {/* Clean Deliverable Points */}
+                  <ul className="space-y-2 pt-1">
+                    {deliverables.slice(0, 4).map((feat, featIdx) => (
+                      <li
+                        key={featIdx}
+                        className="flex items-start gap-2.5 text-xs sm:text-[13px] font-body text-[var(--color-text-primary)] leading-relaxed"
+                      >
+                        <span
+                          className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-1.5 shrink-0"
+                          aria-hidden="true"
+                        />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Action Links */}
+                <div className="pt-5 border-t border-[var(--color-border)] flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href={`/services/${pkg.slug}`}
+                    className={`flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 text-xs font-body font-semibold uppercase tracking-[0.16em] transition-colors ${
+                      pkg.isPopular
+                        ? 'bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--color-bg-primary)]'
+                        : 'border border-[var(--color-accent)] hover:bg-[var(--color-accent)] text-[var(--color-highlight)] hover:text-[var(--color-bg-primary)]'
+                    }`}
+                  >
+                    <span>{t('rates.viewTiers')}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <Link
+                    href="#inquire"
+                    className="inline-flex items-center justify-center px-5 py-3 border border-[var(--color-border)] hover:border-[var(--color-accent)] text-[var(--color-text-muted)] hover:text-[var(--color-highlight)] text-xs font-body uppercase tracking-[0.16em] transition-colors bg-[var(--color-bg-secondary)]"
+                  >
+                    <span>{t('hero.ctaInquire')}</span>
+                  </Link>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
 
-        {/* Dynamic Bento Grid Fed Directly from Database Model */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Row 1: Complete Both Sides Wedding & Groom Side */}
-          {renderPackageCard(completePkg, BothSidesUnionIcon)}
-          {renderPackageCard(groomPkg, GroomBaraatIcon)}
-
-          {/* Row 2: Bride Side & Pre-Wedding */}
-          {renderPackageCard(bridePkg, BrideRitualIcon)}
-          {renderPackageCard(preWedPkg, PreWeddingCoastIcon)}
-
-          {/* Row 3: Studio Base & Physical Album Delivery Guarantee Tiles */}
-          <div className="lg:col-span-6 p-7 sm:p-8 border border-[var(--color-border)] bg-[var(--color-bg-primary)] flex flex-col justify-between space-y-5">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-accent)] shadow-xs">
-                <StudioTrioIcon className="w-5 h-5" />
-              </div>
-              <h4 className="font-display text-2xl text-[var(--color-highlight)]">
-                {t('rates.cuttackTileTitle')}
-              </h4>
-              <p className="font-body text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-                {t('rates.cuttackTileDesc')}
-              </p>
-            </div>
-            <div className="pt-4 border-t border-[var(--color-border)] text-[11px] font-body tracking-wider uppercase text-[var(--color-text-faint)]">
-              Direct Cuttack Team • Transparent Travel & Stay
-            </div>
+        {/* Heirloom Album & Pan-Odisha Coverage Editorial Spread */}
+        <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center p-6 sm:p-8 border border-[var(--color-border)] bg-[var(--color-bg-primary)]">
+          <div className="lg:col-span-7">
+            <MediaSlot
+              type={albumShowcase.type}
+              src={albumShowcase.src}
+              aspectRatio={albumShowcase.aspectRatio}
+              alt={isOr ? albumShowcase.altOr : albumShowcase.altEn}
+            />
           </div>
 
-          <div className="lg:col-span-6 p-7 sm:p-8 border border-[var(--color-border)] bg-[var(--color-bg-primary)] flex flex-col justify-between space-y-5">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-accent)] shadow-xs">
-                <ArchivalAlbumIcon className="w-5 h-5" />
-              </div>
-              <h4 className="font-display text-2xl text-[var(--color-highlight)]">
+          <div className="lg:col-span-5 space-y-8">
+            <div className="space-y-2.5">
+              <h3 className="font-display text-2xl sm:text-3xl text-[var(--color-highlight)] leading-snug">
                 {t('rates.albumTileTitle')}
-              </h4>
+              </h3>
               <p className="font-body text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
                 {t('rates.albumTileDesc')}
               </p>
             </div>
-            <div className="pt-4 border-t border-[var(--color-border)] text-[11px] font-body tracking-wider uppercase text-[var(--color-text-faint)]">
-              250 GSM Fuji Paper • Handcrafted Wooden Vault Box
+
+            <div className="pt-6 border-t border-[var(--color-border)] space-y-2.5">
+              <h3 className="font-display text-xl sm:text-2xl text-[var(--color-highlight)] leading-snug">
+                {t('rates.cuttackTileTitle')}
+              </h3>
+              <p className="font-body text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
+                {t('rates.cuttackTileDesc')}
+              </p>
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        {/* Footer Notice & Full Customizer Link */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-[var(--color-border)] text-xs font-body">
-          <p className="text-[var(--color-text-muted)] max-w-xl text-center sm:text-left leading-relaxed">
-            {t(ratesConfig.customQuoteNoticeKey)}
+        {/* Bottom Custom Quote Notice & Full Services Link */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-4 border-t border-[var(--color-border)] text-xs font-body">
+          <p className="text-[var(--color-text-muted)] max-w-2xl text-center sm:text-left leading-relaxed">
+            {t('rates.customQuoteNotice')}
           </p>
 
           <Link
-            href="/services/complete-both-sides-wedding"
+            href="/services"
             className="inline-flex items-center gap-2 uppercase tracking-[0.18em] text-[var(--color-accent)] hover:text-[var(--color-highlight)] font-semibold transition-colors whitespace-nowrap"
           >
             <span>{t('rates.viewPackagesCta')}</span>

@@ -23,10 +23,11 @@
   --color-bg-primary: #FAF7F2;
   --color-bg-secondary: #F3ECE2;
   --color-bg-tertiary: #ECE3D5;
-  --color-border: rgba(125, 17, 23, 0.14);
+  --color-border: rgba(125, 17, 23, 0.22);
+  --color-border-card: rgba(125, 17, 23, 0.26);
   --color-text-primary: #1C0E10;
-  --color-text-muted: #5C4E4B;
-  --color-text-faint: #7A6A67;
+  --color-text-muted: #423330;
+  --color-text-faint: #5F4E4B;
   --color-accent: #946500;
   --color-accent-hover: #7A5200;
   --color-accent-glow: transparent;

@@ -42,10 +42,10 @@ export const activeTheme: ThemeDefinition = {
     bgPrimary: '#FAF7F2',           // Warm Chandan Silk Ivory
     bgSecondary: '#F3ECE2',         // Warm Sandalwood Paper / Alabaster Surface
     bgTertiary: '#ECE3D5',          // Aged Silk Parchment
-    surfaceBorder: 'rgba(125, 17, 23, 0.14)', // Subtle Sindoor Hairline Rule
+    surfaceBorder: 'rgba(125, 17, 23, 0.22)', // Crisp Sindoor Hairline Rule
     textPrimary: '#1C0E10',         // Deep Mahua Charcoal Ink (16.5:1 contrast)
-    textMuted: '#5C4E4B',           // Warm Sandalwood Slate (7.5:1 contrast)
-    textFaint: '#7A6A67',           // Warm Earth Ash (4.8:1 contrast)
+    textMuted: '#423330',           // Deep Sandalwood Slate (10.5:1 contrast)
+    textFaint: '#5F4E4B',           // Refined Earth Ash (7.2:1 contrast)
     accent: '#946500',              // Rich Temple Zari Gold
     accentHover: '#7A5200',         // Deep Burnished Gold
     accentGlow: 'transparent',      // Zero digital glow

@@ -1,11 +1,13 @@
+import { cacheLife, cacheTag } from 'next/cache';
 import { LocalizedPackage, ServiceItem } from '@/types/service';
 import { connectToDatabase } from '@/lib/db/mongodb';
 import { Package, IPackage } from '@/models/Package';
-import { cachedQuery } from '@/lib/redis/cache';
-import fallbackPackages from '@/data/packages.json';
 
-// Helper to convert DB package (or fallback JSON document) to LocalizedPackage for the active locale
-function toLocalizedPackage(raw: Partial<IPackage> | Record<string, unknown>, locale: string): LocalizedPackage {
+// Helper to convert DB package document to LocalizedPackage for the active locale
+export function toLocalizedPackage(
+  raw: Partial<IPackage> | Record<string, unknown>,
+  locale: string
+): LocalizedPackage {
   const isOdia = locale === 'or';
   const r = raw as Record<string, unknown>;
 
@@ -91,61 +93,65 @@ function toLocalizedPackage(raw: Partial<IPackage> | Record<string, unknown>, lo
   };
 }
 
-async function fetchRawPackages(): Promise<Record<string, unknown>[]> {
+/**
+ * Returns all active packages localized for the requested locale directly from MongoDB,
+ * cached using Next.js 16 'use cache' directive with cacheTag('packages').
+ */
+export async function getAllServices(locale: string = 'en'): Promise<LocalizedPackage[]> {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('packages');
+
   try {
     await connectToDatabase();
     const docs = await Package.find({ isActive: true }).sort({ displayOrder: 1 }).lean();
-    if (docs && docs.length > 0) {
-      return docs as unknown as Record<string, unknown>[];
-    }
+    return docs.map((pkg) => toLocalizedPackage(pkg as unknown as Record<string, unknown>, locale));
   } catch (err) {
-    console.warn('[Services] MongoDB offline, using seeded packages dataset:', err);
+    console.warn('[Services] Database connection unavailable:', err);
+    return [];
   }
-  return fallbackPackages as unknown as Record<string, unknown>[];
 }
 
 /**
- * Returns all packages localized for the requested locale, cached via Upstash Redis
- */
-export async function getAllServices(locale: string = 'en'): Promise<LocalizedPackage[]> {
-  const cacheKey = `packages:all:${locale}`;
-  return await cachedQuery(cacheKey, 3600, async () => {
-    const raw = await fetchRawPackages();
-    return raw.map((pkg) => toLocalizedPackage(pkg, locale));
-  });
-}
-
-/**
- * Returns a specific package by slug localized for the requested locale, cached via Upstash Redis
+ * Returns a specific package by slug localized for the requested locale directly from MongoDB,
+ * cached using Next.js 16 'use cache' directive.
  */
 export async function getServiceBySlug(
   locale: string,
   slug: string
 ): Promise<LocalizedPackage | undefined> {
-  const cacheKey = `package:${slug}:${locale}`;
-  return await cachedQuery(cacheKey, 3600, async () => {
-    try {
-      await connectToDatabase();
-      const doc = await Package.findOne({ slug, isActive: true }).lean();
-      if (doc) {
-        return toLocalizedPackage(doc as unknown as Record<string, unknown>, locale);
-      }
-    } catch (err) {
-      console.warn(`[Services] Error querying slug "${slug}" from DB:`, err);
+  'use cache';
+  cacheLife('hours');
+  cacheTag('packages');
+  cacheTag(`package-${slug}`);
+
+  try {
+    await connectToDatabase();
+    const doc = await Package.findOne({ slug, isActive: true }).lean();
+    if (!doc) {
+      return undefined;
     }
-    const fallback = (fallbackPackages as unknown as Record<string, unknown>[]).find(
-      (p) => p.slug === slug
-    );
-    if (fallback) {
-      return toLocalizedPackage(fallback, locale);
-    }
-    return undefined as unknown as LocalizedPackage;
-  });
+    return toLocalizedPackage(doc as unknown as Record<string, unknown>, locale);
+  } catch (err) {
+    console.warn(`[Services] Database connection unavailable for slug ${slug}:`, err);
+    return undefined;
+  }
 }
 
 /**
- * Synchronous slug getter for Next.js SSG generateStaticParams()
+ * Returns all active package slugs directly from MongoDB for SSG generateStaticParams()
  */
-export function getAllServiceSlugs(): string[] {
-  return (fallbackPackages as Array<{ slug: string }>).map((s) => s.slug);
+export async function getAllServiceSlugs(): Promise<string[]> {
+  'use cache';
+  cacheLife('hours');
+  cacheTag('packages');
+
+  try {
+    await connectToDatabase();
+    const docs = await Package.find({ isActive: true }).select('slug').lean();
+    return docs.map((s) => String(s.slug));
+  } catch (err) {
+    console.warn('[Services] Database connection unavailable for slugs:', err);
+    return [];
+  }
 }

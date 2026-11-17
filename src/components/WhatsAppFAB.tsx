@@ -35,7 +35,7 @@ export function WhatsAppFAB({ customMessage }: WhatsAppFABProps) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Contact Deepak Photo Films on WhatsApp"
-        className="w-13 h-13 rounded-full bg-[var(--color-bg-primary)] border border-[var(--color-accent)] hover:bg-[var(--color-accent)] text-[var(--color-accent)] hover:text-[#ffffff] flex items-center justify-center shadow-xl transition-colors duration-300"
+        className="w-13 h-13 rounded-full bg-[var(--color-bg-primary)] border border-[var(--color-accent)] hover:bg-[var(--color-accent)] text-[var(--color-accent)] hover:text-[var(--color-bg-primary)] flex items-center justify-center shadow-xl transition-colors duration-300"
       >
         <WhatsAppIcon className="w-5 h-5" />
       </a>

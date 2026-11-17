@@ -6,7 +6,6 @@ import {
   GeneralEnquiry,
   Package,
   BlogStory,
-  PortfolioItem,
   Testimonial,
 } from '@/models';
 
@@ -22,7 +21,6 @@ export const GET = withAdminApi(async () => {
       activePackages,
       publishedStories,
       totalStories,
-      portfolioCount,
       testimonialCount,
     ] = await Promise.all([
       BookingRequest.countDocuments({ status: 'pending' }),
@@ -32,7 +30,6 @@ export const GET = withAdminApi(async () => {
       Package.countDocuments({ isActive: true }),
       BlogStory.countDocuments({ isPublished: true }),
       BlogStory.countDocuments(),
-      PortfolioItem.countDocuments(),
       Testimonial.countDocuments(),
     ]);
 
@@ -43,7 +40,6 @@ export const GET = withAdminApi(async () => {
         enquiries: { unread: unreadEnquiries, total: totalEnquiries },
         packages: { active: activePackages },
         stories: { published: publishedStories, total: totalStories },
-        portfolio: { total: portfolioCount },
         testimonials: { total: testimonialCount },
       },
     });

@@ -7,7 +7,6 @@ import {
   Mail,
   Package,
   BookOpen,
-  Image as ImageIcon,
   Star,
   ArrowRight,
   ShieldCheck,
@@ -24,7 +23,6 @@ export function OverviewView({ onSelectTab }: OverviewViewProps) {
     enquiries: { unread: number; total: number };
     packages: { active: number };
     stories: { published: number; total: number };
-    portfolio: { total: number };
     testimonials: { total: number };
   } | null>(null);
 
@@ -75,13 +73,6 @@ export function OverviewView({ onSelectTab }: OverviewViewProps) {
       sub: stats ? `${stats.stories.total} Total Features` : '—',
       icon: BookOpen,
       tab: 'stories',
-    },
-    {
-      title: 'Portfolio Plates',
-      value: stats ? `${stats.portfolio.total} Stills & Reels` : '—',
-      sub: '35mm Film & Cinema Media',
-      icon: ImageIcon,
-      tab: 'portfolio',
     },
     {
       title: 'Couple Reviews',
@@ -157,7 +148,7 @@ export function OverviewView({ onSelectTab }: OverviewViewProps) {
           <span>Full Multi-Model CRUD Architecture Active</span>
         </div>
         <p className="text-xs font-body text-[var(--color-text-muted)] leading-relaxed max-w-3xl">
-          All 6 Mongoose models are connected to secured API endpoints with Redis cache invalidation, rate limiting, and CSRF protection. Select any tab in the console header to create, inspect, edit, or delete records.
+          Core database models (Packages, Stories, Testimonials, Bookings, and Enquiries) are connected to secured API endpoints with cache invalidation, rate limiting, and CSRF protection. Visual media across the portfolio and landing page compiles statically at build time from centralized configuration for maximum reliability and performance.
         </p>
       </div>
     </div>

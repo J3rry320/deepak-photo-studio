@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
-import { getServiceBySlug, getAllServiceSlugs } from '@/lib/services';
+import { getServiceBySlug } from '@/lib/services';
 import { Link } from '@/i18n/navigation';
 import { navigationConfig } from '@/config/navigation';
 import { WhatsAppIcon } from '@/components/SocialIcons';
@@ -25,15 +24,7 @@ interface ServicePageProps {
   }>;
 }
 
-export function generateStaticParams() {
-  const slugs = getAllServiceSlugs();
-  return routing.locales.flatMap((locale) =>
-    slugs.map((slug) => ({
-      locale,
-      slug,
-    }))
-  );
-}
+export const instant = false;
 
 export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
   const { locale, slug } = await params;

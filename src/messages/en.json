@@ -1,7 +1,7 @@
 {
   "brand": {
     "name": "DEEPAK PHOTO FILMS",
-    "subtitle": "WEDDING PHOTOGRAPHY & 4K CINEMA • CUTTACK & BHUBANESWAR",
+    "subtitle": "WEDDING PHOTOGRAPHY & CINEMA",
     "location": "CUTTACK • BHUBANESWAR • ACROSS ODISHA",
     "est": "ESTD. 2014"
   },
@@ -13,21 +13,21 @@
     "or": "or"
   },
   "nav": {
-    "portfolio": "Recent Weddings",
-    "films": "Wedding Cinema",
+    "portfolio": "Weddings",
+    "films": "Cinema",
     "stories": "Stories",
     "about": "About Us",
     "contact": "Check Dates",
-    "philosophy": "Our Approach",
+    "philosophy": "Approach",
     "journal": "Wedding Guide",
     "checkDates": "Check Dates",
-    "investment": "Packages & Pricing",
+    "investment": "Packages",
     "faq": "FAQ"
   },
   "hero": {
-    "titleLine1": "Wedding Photography & Cinema in",
-    "titleLine2": "Cuttack & Bhubaneswar",
-    "lead": "We are Deepak Photo Films — a team of three passionate wedding photographers based in Cuttack, traveling across all 30 districts of Odisha. From joyful Haldi laughter and energetic Baraat dancing to sacred Vedic Mandap rituals and emotional Vidaai moments, we document your wedding naturally without awkward posing or stiff interruptions. You receive high-resolution edited photos, 4K cinematic highlight films, and handcrafted printed wedding albums delivered straight to your home.",
+    "titleLine1": "Your Story,",
+    "titleLine2": "Beautifully Framed",
+    "lead": "A Cuttack trio documenting unscripted wedding stories across Odisha. Pure emotion captured effortlessly through timeless photography, 4K cinematic films, and heirloom albums crafted for your home.",
     "ctaExplore": "View Packages & Pricing",
     "ctaInquire": "Check Wedding Dates"
   },
@@ -37,15 +37,7 @@
     "filterAll": "All Weddings",
     "filterCeremony": "Mandap & Rituals",
     "filterPortraits": "Bride & Groom",
-    "filterCinema": "Pre-Wedding & Reels",
-    "plate1Title": "Sacred Vedic Mandap & Sindoor Daan",
-    "plate1Desc": "Authentic moments of the bride and groom during Vedic vows and sacred Agni circumambulation in Puri.",
-    "plate2Title": "High-Energy Evening Baraat",
-    "plate2Desc": "Joyous groom entry procession with family dancing, brass music, and unfiltered celebration in Cuttack.",
-    "plate3Title": "Candid Haldi & Bridal Alta",
-    "plate3Desc": "Playful turmeric smiles, traditional Odia Khandua Pata silk, and tender family moments.",
-    "plate4Title": "Sunset Pre-Wedding by the Coast",
-    "plate4Desc": "Relaxed, romantic couple storytelling along the Puri-Konark marine drive coastline."
+    "filterCinema": "Pre-Wedding & Reels"
   },
   "philosophy": {
     "title": "How We Tell Your Wedding Story",
@@ -63,46 +55,10 @@
     "title": "Wedding Photography Packages & Transparent Starting Rates",
     "lead": "Clear, honest rates with zero hidden surprises. Every package includes dedicated coverage by our 3-artist Cuttack team, color-graded photos, 4K cinematic video, and full physical album delivery support anywhere in Odisha.",
     "startingAt": "Starting from",
+    "viewTiers": "View Package Details",
     "viewPackagesCta": "Explore All Service Details & Tiers",
     "customQuoteNotice": "Planning a multi-day wedding celebration or an outstation destination wedding? Contact us for a personalized quote with transparent travel costs.",
     "cuttackTeamNotice": "Our core team of 3 photographers is based in Cuttack, traveling across all 30 districts of Odisha with handcrafted album printing & doorstep delivery.",
-    "col1Title": "Bride Side Wedding Photography & Cinema",
-    "col1Price": "₹50,000",
-    "col1Desc": "Complete coverage of the bride's special day — from early morning Haldi and bridal makeup portraits to the sacred Mandap rituals and emotional Vidaai.",
-    "col1Feature1": "3-Artist Cuttack Crew (1 Candid + 1 Traditional + 1 Cinematographer)",
-    "col1Feature2": "Haldi, Bridal Prep, Mandap rituals & Vidaai covered",
-    "col1Feature3": "300+ hand-edited high-resolution photos in private online gallery",
-    "col1Feature4": "3–5 minute cinematic highlight video trailer in 4K",
-
-    "col2Title": "Groom Side Wedding Photography & Cinema",
-    "col2Price": "₹70,000",
-    "col2Badge": "Popular for Groom Families",
-    "col2Desc": "High-energy coverage starting with groom Haldi and royal styling, followed by the grand Baraat procession, Mandap ceremonies, and evening reception.",
-    "col2Feature1": "3-Artist Cuttack Crew with high-fidelity wireless audio",
-    "col2Feature2": "Full Baraat procession, stage reception & Mandap coverage",
-    "col2Feature3": "350+ color-graded high-resolution photos",
-    "col2Feature4": "3–5 minute 4K cinematic trailer + full documentary film",
-    "col2Feature5": "Complete ceremony video documentary with crisp vows audio",
-
-    "col3Title": "Complete Wedding (Both Sides Unified)",
-    "col3Price": "₹1,10,000",
-    "col3Badge": "Best Value for Both Families",
-    "col3Desc": "One coordinated senior studio crew covering both the bride and groom sides seamlessly. Both families receive identical cinematic color grading and complete harmony.",
-    "col3Feature1": "Senior studio crew (4 to 6 artists) coordinating both sides",
-    "col3Feature2": "Coverage of bride's rituals, groom's Baraat, Mandap & Reception",
-    "col3Feature3": "600+ color-graded high-resolution photos",
-    "col3Feature4": "4–6 min 4K cinematic wedding trailer + full documentary film",
-    "col3Feature5": "Master flushmount leather wedding album included",
-
-    "col4Title": "Pre-Wedding Cinematic Couple Shoot",
-    "col4Price": "₹25,000",
-    "col4Badge": "Couples' Favorite",
-    "col4Desc": "A fun, relaxed outdoor photoshoot before the wedding rush. Shot across Odisha's scenic beaches, marine drives, or heritage temple backdrops.",
-    "col4Feature1": "1–2 scenic outdoor locations (Puri beach, Konark, heritage sites)",
-    "col4Feature2": "40+ professionally retouched photos + outfit styling guidance",
-    "col4Feature3": "60-second romantic cinematic video reel for Instagram",
-
-    "viewTiers": "Explore Package Details & Tiers",
     "cuttackTileTitle": "Based in Cuttack • Travel Across All 30 Districts",
     "cuttackTileDesc": "We regularly travel to Bhubaneswar, Puri, Jajpur, Angul, Balasore, Sambalpur, and Rourkela with transparent travel arrangements.",
     "albumTileTitle": "Handcrafted Albums & Doorstep Delivery",
@@ -125,14 +81,8 @@
     "step4Desc": "You receive an online gallery to share with family, followed by your custom leather-bound wedding album delivered to your doorstep."
   },
   "testimonials": {
-    "title": "What Real Couples Say About Us",
-    "lead": "Nothing makes us happier than knowing a family will cherish our photographs for generations.",
-    "quote1": "“When our wedding video arrived, our entire family sat together and cried happy tears. Deepak and his team didn't just take pictures—they captured how joyful and emotional that day truly was.”",
-    "couple1": "Ananya & Siddharth",
-    "location1": "Puri Wedding • 2025",
-    "quote2": "“Our parents were so pleased with how polite and respectful the photographers were during the Mandap rituals. They never blocked the sacred fire or asked us to freeze for fake smiles.”",
-    "couple2": "Priyanka & Rahul",
-    "location2": "Bhubaneswar Wedding • 2025"
+    "title": "What Real Couples & Families Say",
+    "lead": "Nothing makes us happier than knowing a family will cherish our photographs and films for generations."
   },
   "inquiry": {
     "title": "Check Date Availability & Get a Quote",
@@ -176,6 +126,41 @@
     "q5": "Can we customize our package with extra days, drone, or parent albums?",
     "a5": "Yes. You can add extra ceremony coverage (like engagement, reception, or Haldi), aerial 4K drone cinematography, vintage 35mm analog film rolls, or extra mini-albums for parents at clear, affordable add-on rates."
   },
+  "stories": {
+    "archiveTitle": "Real Weddings & Film Journal",
+    "archiveLead": "Explore photojournalistic heirloom stories, emotional vows, and authentic cultural ceremonies captured across Odisha.",
+    "filterAll": "All Stories",
+    "filterRealWedding": "Real Weddings",
+    "filterEditorial": "Editorials",
+    "filterTraditions": "Traditions Guide",
+    "filterJournal": "Film Journals",
+    "readStory": "Read Story",
+    "backToStories": "All Stories",
+    "vendorCreditsTitle": "Creative Partners & Vendor Credits",
+    "empty": "No stories published in this category yet.",
+    "inquireAboutWedding": "Planning a Similar Wedding?",
+    "inquireLead": "Connect with Deepak Photo Films to document your special moments with cinematic authenticity.",
+    "filmEmbedTitle": "Cinematic 4K Wedding Highlight",
+    "galleryTitle": "Selected Film Stills & Moments"
+  },
+  "portfolioPage": {
+    "title": "Visual Archive & Selected Works",
+    "lead": "A curated selection of candid portraiture, Vedic Mandap rituals, twilight celebrations, and 35mm analog film rolls across Odisha.",
+    "filterAll": "All Works",
+    "filterCeremony": "Mandap & Rituals",
+    "filterPortraits": "Bride & Groom",
+    "filterCelebration": "Celebrations",
+    "filterCinema": "Cinema Reels",
+    "filterAnalog": "35mm Analog Stills",
+    "empty": "No portfolio items in this category yet."
+  },
+  "servicesPage": {
+    "title": "Wedding Photography & Cinema Collections",
+    "lead": "Transparent collections tailored for Odia weddings, Baraat celebrations, pre-wedding journeys, and vintage analog experiences.",
+    "exploreTiers": "Explore Tiers & Inclusions",
+    "cuttackNotice": "Based in Cuttack • Available Pan-Odisha with Handcrafted Album Printing",
+    "customNotice": "Need a bespoke multi-day package or destination coverage? Chat directly with us."
+  },
   "footer": {
     "columns": {
       "archive": "Wedding Galleries",
@@ -183,7 +168,26 @@
       "inquire": "Bookings"
     },
     "connect": "Connect With Us",
-    "copyright": "© Deepak Photo Films. Candid wedding photography and cinematic films based in Cuttack, Odisha. Preserving timeless memories across India."
+    "copyright": "All rights reserved.",
+    "seo": {
+      "title": "Candid Odia Wedding Photography & 4K Cinema • Cuttack & Bhubaneswar",
+      "col1Title": "The Studio Craft",
+      "col1Text": "Deepak Photo Films is an independent wedding photography and 4K cinema collective based in Cuttack, Odisha. We specialize in unscripted, photojournalistic wedding coverage that honors sacred Odia traditions—from dawn Mangala Krutya and Vedic Mandap rituals to joyous Baraat processions and heartfelt Bidai moments. No artificial poses, just honest emotions and timeless memories.",
+      "col2Title": "Services & Heirloom Albums",
+      "col2Text": "Our collections include candid photography, 4K cinematic wedding highlight trailers, pre-wedding couple journeys, and vintage 35mm analog film rolls. Every celebration is complemented by color-graded digital galleries and bespoke flushmount heirloom albums printed on archival paper, encased in luxury wooden vaults and delivered to your doorstep.",
+      "col3Title": "Odisha & Pan-India Coverage",
+      "col3Text": "Rooted in Cuttack and regularly shooting across Bhubaneswar, Puri, and Cuttack twin-city venues, our 3-artist crew travels across all 30 districts of Odisha including Angul, Jajpur, Balasore, Bhadrak, Sambalpur, and Rourkela, as well as destination weddings across India with transparent travel arrangements."
+    },
+    "contact": {
+      "directLine": "Direct Studio Line",
+      "officeHours": "Mon — Sat / 10:00 — 19:00 IST",
+      "location": "Cuttack & Bhubaneswar, Odisha • Available Pan-India"
+    },
+    "credits": {
+      "designedBy": "Designed & Developed with",
+      "by": "by",
+      "author": "Code Media Labs"
+    }
   },
   "language": {
     "en": "EN",

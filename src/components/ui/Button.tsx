@@ -39,15 +39,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantClasses: Record<ButtonVariant, string> = {
       primary:
-        'bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[#ffffff] shadow-xs hover:shadow-sm active:translate-y-px',
+        'bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-[var(--color-bg-primary)] shadow-xs hover:shadow-sm active:translate-y-px',
       secondary:
         'bg-[var(--color-bg-secondary)] hover:bg-[var(--color-bg-primary)] text-[var(--color-highlight)] border border-[var(--color-border)] hover:border-[var(--color-accent)]',
       outline:
-        'border border-[var(--color-accent)] text-[var(--color-highlight)] hover:bg-[var(--color-accent)] hover:text-[#ffffff]',
+        'border border-[var(--color-accent)] text-[var(--color-highlight)] hover:bg-[var(--color-accent)] hover:text-[var(--color-bg-primary)]',
       ghost:
         'text-[var(--color-text-muted)] hover:text-[var(--color-highlight)] hover:bg-[var(--color-bg-secondary)]',
       danger:
-        'bg-red-700 hover:bg-red-800 text-[#ffffff] shadow-xs hover:shadow-sm active:translate-y-px',
+        'bg-red-700 hover:bg-red-800 text-[var(--color-bg-primary)] shadow-xs hover:shadow-sm active:translate-y-px',
     };
 
     return (

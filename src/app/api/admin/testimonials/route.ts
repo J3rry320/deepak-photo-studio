@@ -6,7 +6,6 @@ const handlers = createAdminCrudHandlers({
   entityName: 'Testimonial',
   searchFields: ['coupleNames', 'weddingLocation', 'quoteEn', 'quoteOr'],
   filterFields: ['featuredOnHome', 'weddingYear', 'rating'],
-  cacheKeysToInvalidate: ['testimonials:all'],
   defaultSort: { sortOrder: 1, createdAt: -1 },
 });
 

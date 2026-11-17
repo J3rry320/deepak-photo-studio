@@ -6,7 +6,6 @@ const handlers = createAdminCrudHandlers({
   entityName: 'BlogStory',
   searchFields: ['titleEn', 'titleOr', 'slug', 'coupleNames', 'city', 'excerptEn'],
   filterFields: ['category', 'isPublished', 'city'],
-  cacheKeysToInvalidate: ['stories:all:en', 'stories:all:or'],
   defaultSort: { createdAt: -1 },
 });
 

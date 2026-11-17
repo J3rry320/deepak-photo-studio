@@ -10,7 +10,6 @@ import {
   Mail,
   Package,
   BookOpen,
-  Image as ImageIcon,
   Star,
   ArrowLeft,
   LogOut,
@@ -20,7 +19,6 @@ import { BookingsView } from './views/BookingsView';
 import { EnquiriesView } from './views/EnquiriesView';
 import { PackagesView } from './views/PackagesView';
 import { StoriesView } from './views/StoriesView';
-import { PortfolioView } from './views/PortfolioView';
 import { TestimonialsView } from './views/TestimonialsView';
 
 type TabKey =
@@ -29,7 +27,6 @@ type TabKey =
   | 'enquiries'
   | 'packages'
   | 'stories'
-  | 'portfolio'
   | 'testimonials';
 
 export function AdminConsoleShell() {
@@ -55,7 +52,6 @@ export function AdminConsoleShell() {
     { key: 'enquiries', label: 'Enquiries', icon: Mail },
     { key: 'packages', label: 'Packages', icon: Package },
     { key: 'stories', label: 'Stories', icon: BookOpen },
-    { key: 'portfolio', label: 'Portfolio', icon: ImageIcon },
     { key: 'testimonials', label: 'Reviews', icon: Star },
   ];
 
@@ -128,7 +124,6 @@ export function AdminConsoleShell() {
         {activeTab === 'enquiries' && <EnquiriesView />}
         {activeTab === 'packages' && <PackagesView />}
         {activeTab === 'stories' && <StoriesView />}
-        {activeTab === 'portfolio' && <PortfolioView />}
         {activeTab === 'testimonials' && <TestimonialsView />}
       </main>
     </div>

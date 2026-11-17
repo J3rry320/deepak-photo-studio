@@ -50,10 +50,10 @@ export const navigationConfig: NavigationConfig = {
 
   // Navbar main links - easily add or remove items here
   mainNav: [
-    { key: 'nav.portfolio', href: '/#portfolio' },
-    { key: 'nav.films', href: '/#films' },
-    { key: 'nav.stories', href: '/#stories' },
-    { key: 'nav.about', href: '/#about' },
+    { key: 'nav.portfolio', href: '/portfolio' },
+    { key: 'nav.stories', href: '/stories' },
+    { key: 'nav.investment', href: '/services' },
+    { key: 'nav.philosophy', href: '/#about' },
   ],
 
   // Primary Call-To-Action button in navbar and hero
@@ -95,24 +95,24 @@ export const navigationConfig: NavigationConfig = {
     {
       titleKey: 'footer.columns.archive',
       items: [
-        { key: 'nav.portfolio', href: '/#portfolio' },
-        { key: 'nav.films', href: '/#films' },
-        { key: 'nav.stories', href: '/#stories' },
+        { key: 'nav.portfolio', href: '/portfolio' },
+        { key: 'nav.stories', href: '/stories' },
+        { key: 'nav.investment', href: '/services' },
       ],
     },
     {
       titleKey: 'footer.columns.studio',
       items: [
         { key: 'nav.about', href: '/#about' },
-        { key: 'nav.philosophy', href: '/#philosophy' },
-        { key: 'nav.journal', href: '/#journal' },
+        { key: 'nav.philosophy', href: '/#about' },
+        { key: 'nav.journal', href: '/stories' },
       ],
     },
     {
       titleKey: 'footer.columns.inquire',
       items: [
         { key: 'nav.checkDates', href: '/#inquire' },
-        { key: 'nav.investment', href: '/#investment' },
+        { key: 'nav.investment', href: '/services' },
         { key: 'nav.faq', href: '/#faq' },
       ],
     },

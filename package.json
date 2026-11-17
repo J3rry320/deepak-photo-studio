@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "npx tsx src/scripts/seed.ts",
+    "seed:packages": "npx tsx src/scripts/seed-packages.ts",
+    "seed:blogs": "npx tsx src/scripts/seed-stories.ts",
+    "seed:testimonials": "npx tsx src/scripts/seed-testimonials.ts"
   },
   "dependencies": {
-    "@upstash/ratelimit": "^2.2.0",
-    "@upstash/redis": "^1.39.0",
     "firebase": "^12.19.0",
     "firebase-admin": "^14.5.0",
     "framer-motion": "^13.4.3",

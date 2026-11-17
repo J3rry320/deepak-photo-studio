@@ -228,38 +228,6 @@ export function StudioTrioIcon({ className = 'w-5 h-5', size }: IconProps) {
 }
 
 /**
- * 9. Cinematic Drone Aerial Icon
- */
-export function DroneAerialIcon({ className = 'w-5 h-5', size }: IconProps) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <rect x="9" y="9" width="6" height="6" rx="1.5" />
-      <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-      {/* Quadcopter Arms */}
-      <path d="M9 9L5 5" />
-      <path d="M15 9l4-4" />
-      <path d="M9 15l-4 4" />
-      <path d="M15 15l4 4" />
-      {/* Rotors */}
-      <circle cx="4" cy="4" r="2" />
-      <circle cx="20" cy="4" r="2" />
-      <circle cx="4" cy="20" r="2" />
-      <circle cx="20" cy="20" r="2" />
-    </svg>
-  );
-}
-
-/**
  * 10. Archival Online Gallery Vault Icon
  */
 export function GalleryVaultIcon({ className = 'w-5 h-5', size }: IconProps) {
